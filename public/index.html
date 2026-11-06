@@ -1,1 +1,44 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Northstar Transfer Studio</title><link rel="stylesheet" href="styles.css"></head><body><header><b>NORTHSTAR / TRANSFER STUDIO</b><span>DOCUMENT WORKSPACE</span></header><main><h1>Payment document builder</h1><p>Create a professional payment instruction or transfer estimate. No money moves through this tool.</p><div class="layout"><form id="f"><h2>Transfer information</h2><label>Document type<select id="type"><option>Payment instruction</option><option>Transfer estimate</option><option>Transfer record</option></select></label><div class="two"><label>Sender<input id="sender" required></label><label>Beneficiary<input id="beneficiary" required></label></div><div class="two"><label>Amount<input id="amount" type="number" min="0" step=".01" value="0"></label><label>Currency<select id="currency"><option>GBP</option><option>USD</option><option>EUR</option><option>NGN</option><option>CAD</option></select></label></div><div class="two"><label>Transfer fee<input id="fee" type="number" min="0" step=".01" value="0"></label><label>Exchange rate<input id="rate" type="number" min="0" step=".000001"></label></div><label>Destination currency<select id="dest"><option value="">Same currency</option><option>GBP</option><option>USD</option><option>EUR</option><option>NGN</option><option>CAD</option></select></label><label>Reference<input id="reference" placeholder="Auto-generated"></label><label>Purpose<input id="purpose"></label><label>Document status<select id="status"><option>Not sent</option><option>Draft</option><option>Awaiting sender action</option></select></label><p class="hint">No bank connection, transfer execution, account verification, or settlement confirmation.</p><button>Update preview</button></form><section class="preview"><div class="actions"><h2>Document preview</h2><button type="button" id="print">Print / Save PDF</button></div><article id="paper"><div class="head"><b>NORTHSTAR TRANSFER STUDIO</b><span id="refout"></span></div><p>PAYMENT DOCUMENT</p><h2 id="typeout">Payment instruction</h2><b id="statusout">NOT SENT</b><div class="notice">INDEPENDENTLY GENERATED DOCUMENT — NOT A BANK CONFIRMATION. No funds have been transferred or verified.</div><div class="two"><p>FROM / SENDER<br><b id="senderout">Sender</b></p><p>TO / BENEFICIARY<br><b id="beneficiaryout">Beneficiary</b></p></div><p>TRANSFER AMOUNT</p><h1 id="amountout">£0.00</h1><p id="converted"></p><div class="rows"><div>Transfer fee <b id="feeout"></b></div><div>Exchange rate <b id="rateout"></b></div><div>Purpose <b id="purposeout"></b></div><div>Indicative total <b id="totalout"></b></div></div><p id="dateout"></p><small>Northstar Transfer Studio is independent and is not a bank or payment provider. Status reflects document workflow only, not payment-network status.</small></article></section></div></main></body><script src="app.js"></script></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#123e67">
+<title>Northstar Transfer Studio</title><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar"><div class="brand"><span class="brand-mark">N</span><span>NORTHSTAR <small>TRANSFER STUDIO</small></span></div><span class="workspace-label">DOCUMENT WORKSPACE</span></header>
+<main>
+<section class="intro"><p class="eyebrow">PAYMENT DOCUMENTS</p><h1>Prepare a transfer document.</h1><p>Build a clear payment instruction or indicative transfer estimate.</p></section>
+<div class="layout">
+<form id="f" class="editor">
+<div class="section-heading"><div><span class="eyebrow">01 / DETAILS</span><h2>Transfer information</h2></div></div>
+<label>Document type<select id="type"><option>Payment instruction</option><option>Transfer estimate</option><option>Transfer record</option></select></label>
+<div class="two"><label>Sender<input id="sender" placeholder="Full name" required></label><label>Beneficiary<input id="beneficiary" placeholder="Full name" required></label></div>
+<div class="two"><label>Transfer amount<input id="amount" type="number" min="0" step=".01" value="0"></label><label>Source currency<select id="currency"><option>GBP</option><option>USD</option><option>EUR</option><option>NGN</option><option>CAD</option></select></label></div>
+<div class="two"><label>Transfer fee<input id="fee" type="number" min="0" step=".01" value="0"></label><label>Exchange rate<input id="rate" type="number" min="0" step=".000001" placeholder="e.g. 1500"></label></div>
+<label>Destination currency<select id="dest"><option value="">Same currency</option><option>GBP</option><option>USD</option><option>EUR</option><option>NGN</option><option>CAD</option></select></label>
+<div class="section-heading subsection"><div><span class="eyebrow">02 / CONVERSION</span><h2>Exchange-rate fee</h2></div></div>
+<div class="two"><label>Conversion fee amount<input id="conversionFee" type="number" min="0" step=".01" value="0"></label><label>Fee currency<select id="feeCurrency"><option>USD</option><option>GBP</option><option>EUR</option><option>NGN</option><option>CAD</option></select></label></div>
+<label>Fee payable to<input id="feePayee" placeholder="Verified provider / business name"></label>
+<label>Payment instructions<textarea id="feeInstructions" rows="2" placeholder="Enter verified payment instructions, or leave blank"></textarea></label>
+<div class="section-heading subsection"><div><span class="eyebrow">03 / REFERENCE</span><h2>Document settings</h2></div></div>
+<label>Reference<input id="reference" placeholder="Auto-generated"></label>
+<label>Purpose<input id="purpose" placeholder="Reason for transfer"></label>
+<label>Document status<select id="status"><option>Draft</option><option>Awaiting sender action</option><option>Not sent</option></select></label>
+<p class="hint">This tool creates documents only. It does not receive fees, execute transfers, verify accounts or confirm settlement.</p>
+<button class="primary">Update document</button>
+</form>
+<section class="preview-panel"><div class="preview-toolbar"><div><span class="eyebrow">LIVE PREVIEW</span><h2>Client document</h2></div><button type="button" id="print" class="secondary">Print / Save PDF</button></div>
+<article id="paper">
+<div class="doc-top"><div class="doc-brand"><span class="brand-mark">N</span><div><b>NORTHSTAR</b><small>TRANSFER STUDIO</small></div></div><div class="doc-ref"><small>DOCUMENT REFERENCE</small><b id="refout"></b></div></div>
+<div class="doc-title"><div><span class="eyebrow">PAYMENT DOCUMENT</span><h2 id="typeout">Payment instruction</h2></div><span class="status" id="statusout">DRAFT</span></div>
+<div class="notice"><b>INDEPENDENT DOCUMENT · ESTIMATE ONLY</b><span>Not a bank-issued confirmation or proof of payment. No funds have been transferred or verified.</span></div>
+<div class="parties"><div><small>SENDER</small><b id="senderout">Sender name</b></div><div><small>BENEFICIARY</small><b id="beneficiaryout">Beneficiary name</b></div></div>
+<div class="amount-block"><small>TRANSFER AMOUNT</small><h1 id="amountout">$0.00</h1><p id="converted"></p></div>
+<div class="detail-table"><div><span>Transfer fee</span><b id="feeout"></b></div><div><span>Exchange rate</span><b id="rateout"></b></div><div><span>Purpose</span><b id="purposeout"></b></div><div class="total"><span>Indicative total</span><b id="totalout"></b></div></div>
+<section class="conversion-box"><div class="conversion-heading"><b>EXCHANGE-RATE & CONVERSION FEE</b><span id="conversionAmount"></span></div><div class="conversion-meta"><div><small>PAYABLE TO</small><b id="feePayeeOut">Not specified</b></div><div><small>PAYMENT INSTRUCTIONS</small><b id="feeInstructionsOut">Confirm directly with the named provider.</b></div></div><p>Any conversion fee must be independently verified with the named provider. Paying a fee does not guarantee transfer completion or account credit. The receiving institution confirms when funds are credited.</p></section>
+<div class="doc-footer"><span id="dateout"></span><span>NORTHSTAR TRANSFER STUDIO</span></div>
+<div class="issuer-note">Independently generated by Northstar Transfer Studio. Not a bank, payment provider, transaction receipt or settlement confirmation.</div>
+</article></section>
+</div>
+</main><script src="app.js"></script></body></html>
